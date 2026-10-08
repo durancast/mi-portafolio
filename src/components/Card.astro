@@ -1,0 +1,33 @@
+---
+/**
+ * Cáscara base de todas las tarjetas del bento grid:
+ * superficie vidriada, borde sutil y microinteracción de hover compartida.
+ */
+interface Props {
+  as?: "section" | "article" | "div" | "aside";
+  class?: string;
+  /** Valor de `aria-labelledby` apuntando al id del encabezado de la tarjeta. */
+  labelledby?: string;
+  /** Label accesible alternativo cuando no hay encabezado visible. */
+  ariaLabel?: string;
+}
+
+const {
+  as: Tag = "div",
+  class: className = "",
+  labelledby,
+  ariaLabel,
+} = Astro.props;
+---
+
+<Tag
+  data-glow
+  class:list={[
+    "card-hover card-surface relative flex flex-col rounded-2xl border border-zinc-800/80 p-5 backdrop-blur-sm",
+    className,
+  ]}
+  aria-labelledby={labelledby}
+  aria-label={ariaLabel}
+>
+  <slot />
+</Tag>

@@ -1,0 +1,308 @@
+@import "tailwindcss";
+
+@theme {
+  /* Tipografía */
+  --font-sans: "Geist Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+    Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "JetBrains Mono Variable", ui-monospace, SFMono-Regular, "SF Mono",
+    Menlo, Consolas, "Liberation Mono", monospace;
+
+  /* ---------------------------------------------------------------
+     Paleta Witcher 3: negro cálido, cuero/hierro y oro antiguo.
+     Se redefinen los neutros zinc (mismas clases, tono cálido).
+     --------------------------------------------------------------- */
+  --color-zinc-950: #0a0908; /* fondo: negro cálido */
+  --color-zinc-900: #16130f; /* superficie de tarjetas: cuero */
+  --color-zinc-800: #2a241d; /* bordes: hierro oscuro */
+  --color-zinc-700: #3d362d;
+  --color-zinc-600: #564e42;
+  --color-zinc-500: #6f6557; /* solo iconos decorativos */
+  --color-zinc-400: #a89e90; /* texto secundario (AA: ~7:1) */
+  --color-zinc-300: #c9c0b2; /* texto cuerpo */
+  --color-zinc-200: #ded7cb;
+  --color-zinc-100: #f2ede4; /* pergamino claro */
+
+  /* Acento primario: carmesí sangre (identidad Wild Hunt) */
+  --color-accent-400: #e0655a; /* texto/links (AA ~5,9:1) */
+  --color-accent-500: #c8372d; /* primario: foco, badges, glow */
+  --color-accent-600: #9c2721;
+
+  /* Lumbre ámbar: medallón, auras y CTA (antorcha del brujo) */
+  --color-gold-400: #e3b45a;
+  --color-gold-500: #c9973f;
+  --color-gold-600: #8a6522;
+
+  /* Hueso/pergamino: texto principal (libro de bestiario) */
+  --color-bone-100: #e9e2d3;
+  --color-bone-200: #d9d0bd;
+
+  /* Punto de estado pulsante */
+  --animate-status-pulse: status-pulse 2.4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+
+  @keyframes status-pulse {
+    0%,
+    100% {
+      box-shadow: 0 0 0 0 rgb(34 197 94 / 0.45);
+      opacity: 1;
+    }
+    50% {
+      box-shadow: 0 0 0 6px rgb(34 197 94 / 0);
+      opacity: 0.75;
+    }
+  }
+
+  /* Entrada escalonada de las tarjetas al cargar */
+  @keyframes card-in {
+    from {
+      opacity: 0;
+      transform: translateY(14px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+@layer base {
+  html {
+    color-scheme: dark;
+  }
+
+  body {
+    background-color: var(--color-zinc-950);
+    color: var(--color-zinc-300);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background-color: rgb(200 55 45 / 0.5);
+    color: #fff;
+  }
+
+  /* Foco visible consistente en todo el sitio */
+  :focus-visible {
+    outline: 2px solid var(--color-accent-500);
+    outline-offset: 2px;
+  }
+}
+
+/* ---------------------------------------------------------------
+   Botones: una base + variantes. Elimina ~5 cadenas duplicadas.
+   --------------------------------------------------------------- */
+@utility btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.375rem;
+  border-radius: 0.5rem;
+  padding: 0.625rem 0.875rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow:
+      0 0 0 2px var(--color-zinc-950),
+      0 0 0 4px rgb(224 101 90 / 0.7);
+  }
+}
+
+@utility btn-sm {
+  padding: 0.375rem 0.75rem;
+  border-radius: 0.5rem;
+}
+
+/* Botón cuadrado solo-icono (va después de btn para ganar en orden) */
+@utility btn-icon {
+  padding: 0.5rem;
+  line-height: 0;
+}
+
+@utility btn-primary {
+  background-color: var(--color-gold-500);
+  color: var(--color-zinc-950);
+
+  &:hover {
+    background-color: var(--color-gold-400);
+  }
+}
+
+@utility btn-ghost {
+  border: 1px solid var(--color-zinc-800);
+  background-color: rgb(10 9 8 / 0.6);
+  color: var(--color-zinc-300);
+
+  &:hover {
+    border-color: var(--color-zinc-700);
+    background-color: rgb(42 36 29 / 0.6);
+    color: var(--color-bone-100);
+  }
+}
+
+@utility btn-solid {
+  border: 1px solid rgb(63 54 45 / 0.7);
+  background-color: rgb(42 36 29 / 0.5);
+  color: var(--color-zinc-100);
+
+  &:hover {
+    border-color: var(--color-zinc-600);
+    background-color: var(--color-zinc-800);
+  }
+}
+
+/* ---------------------------------------------------------------
+   Chip mono: badges de proyectos y chips de stack.
+   --------------------------------------------------------------- */
+@utility chip {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 0.375rem;
+  border: 1px solid var(--color-zinc-800);
+  background-color: rgb(10 9 8 / 0.7);
+  padding: 0.25rem 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 1;
+  color: var(--color-zinc-400);
+}
+
+/* Clase compartida de microinteracción de las tarjetas bento */
+@utility card-hover {
+  transition:
+    transform 200ms cubic-bezier(0.4, 0, 0.2, 1),
+    border-color 200ms cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 200ms cubic-bezier(0.4, 0, 0.2, 1),
+    background-color 200ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Glow bitono que sigue al puntero: núcleo carmesí con caída a lumbre */
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    pointer-events: none;
+    background: radial-gradient(
+      420px circle at var(--glow-x, 50%) var(--glow-y, -20%),
+      rgb(224 101 90 / 0.1),
+      rgb(227 180 90 / 0.05) 45%,
+      transparent 68%
+    );
+    opacity: 0;
+    transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  &:hover::before {
+    opacity: 1;
+  }
+
+  &:hover {
+    transform: translateY(-2px);
+    border-color: var(--color-zinc-700);
+    box-shadow: 0 18px 40px -24px rgb(0 0 0 / 0.8);
+  }
+
+  &:focus-within {
+    border-color: var(--color-zinc-700);
+  }
+}
+
+/* ---------------------------------------------------------------
+   Aura de la card principal (identidad): bruma roja permanente
+   + hairline dorado. Va después de card-hover para ganarle en hover.
+   --------------------------------------------------------------- */
+@utility card-hero {
+  box-shadow:
+    0 24px 70px -30px rgb(200 55 45 / 0.35),
+    inset 0 1px 0 rgb(227 180 90 / 0.08);
+
+  &:hover {
+    box-shadow:
+      0 28px 80px -30px rgb(200 55 45 / 0.45),
+      0 18px 40px -24px rgb(0 0 0 / 0.8),
+      inset 0 1px 0 rgb(227 180 90 / 0.12);
+  }
+}
+
+/* Superficie de las tarjetas: cuero envejecido (degradado vertical sutil) */
+@utility card-surface {
+  background-image: linear-gradient(180deg, rgb(26 22 17 / 0.75), rgb(18 15 11 / 0.6));
+}
+
+/* Viñeta cinematográfica: oscurece las esquinas del viewport */
+@utility bg-vignette {
+  background: radial-gradient(
+    ellipse 90% 75% at 50% 42%,
+    transparent 40%,
+    rgb(5 4 3 / 0.55) 100%
+  );
+}
+
+/* ---------------------------------------------------------------
+   Entrada escalonada: el contenedor marca el ritmo, sin props JS.
+   `backwards` deja el estado final libre para los hovers.
+   --------------------------------------------------------------- */
+[data-bento] > * {
+  animation: card-in 520ms cubic-bezier(0.16, 1, 0.3, 1) backwards;
+}
+[data-bento] > *:nth-child(1) {
+  animation-delay: 0ms;
+}
+[data-bento] > *:nth-child(2) {
+  animation-delay: 60ms;
+}
+[data-bento] > *:nth-child(3) {
+  animation-delay: 120ms;
+}
+[data-bento] > *:nth-child(4) {
+  animation-delay: 180ms;
+}
+[data-bento] > *:nth-child(5) {
+  animation-delay: 240ms;
+}
+
+/* Fondo técnico sutil: rejilla + resplandor dorado */
+@utility bg-tech-grid {
+  background-image:
+    linear-gradient(to right, rgb(63 54 45 / 0.2) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(63 54 45 / 0.2) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 30%, transparent 75%);
+}
+
+/* Grano fotográfico sutil para dar profundidad al fondo plano */
+@utility bg-noise {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .card-hover::before {
+    transition: none;
+  }
+}

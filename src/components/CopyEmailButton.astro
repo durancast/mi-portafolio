@@ -1,0 +1,117 @@
+---
+import { Copy, Check } from "lucide-astro";
+
+interface Props {
+  email: string;
+  /** Modo icon-only (junto al email grande); con etiqueta solo para SR. */
+  compact?: boolean;
+  class?: string;
+}
+
+const { email, compact = false, class: className = "" } = Astro.props;
+---
+
+<div class:list={["flex flex-col gap-2", className]}>
+  <button
+    type="button"
+    data-copy-email={email}
+    title="Copiar email"
+    class:list={[
+      "btn",
+      compact ? "btn-solid btn-icon" : "btn-solid w-full",
+    ]}
+    aria-label={compact ? "Copiar email al portapapeles" : undefined}
+  >
+    <Copy
+      class="h-4 w-4 shrink-0 text-zinc-400"
+      data-copy-icon
+      aria-hidden="true"
+    />
+    <Check
+      class="h-4 w-4 shrink-0 hidden text-green-400"
+      data-copied-icon
+      aria-hidden="true"
+    />
+    <span class:list={[compact && "sr-only"]} data-copy-label>
+      Copiar email
+    </span>
+  </button>
+
+  <!-- Región viva para anunciar el resultado a lectores de pantalla -->
+  <p
+    class="sr-only"
+    role="status"
+    aria-live="polite"
+    data-copy-status
+  >
+  </p>
+</div>
+
+<script>
+  const RESET_DELAY_MS = 2500;
+
+  /** Fallback para navegadores sin Clipboard API (o contextos no seguros). */
+  function fallbackCopy(text: string): boolean {
+    const textarea = document.createElement("textarea");
+    textarea.value = text;
+    textarea.setAttribute("readonly", "");
+    textarea.style.position = "fixed";
+    textarea.style.opacity = "0";
+    textarea.style.pointerEvents = "none";
+    document.body.appendChild(textarea);
+    textarea.select();
+    let copied = false;
+    try {
+      copied = document.execCommand("copy");
+    } catch {
+      copied = false;
+    }
+    document.body.removeChild(textarea);
+    return copied;
+  }
+
+  async function copyText(text: string): Promise<boolean> {
+    if (navigator.clipboard?.writeText) {
+      try {
+        await navigator.clipboard.writeText(text);
+        return true;
+      } catch {
+        return fallbackCopy(text);
+      }
+    }
+    return fallbackCopy(text);
+  }
+
+  document.querySelectorAll<HTMLButtonElement>("[data-copy-email]").forEach((button) => {
+    if (button.dataset.copyReady === "true") return;
+    button.dataset.copyReady = "true";
+
+    const label = button.querySelector<HTMLElement>("[data-copy-label]");
+    const copyIcon = button.querySelector<HTMLElement>("[data-copy-icon]");
+    const copiedIcon = button.querySelector<HTMLElement>("[data-copied-icon]");
+    const status = button.parentElement?.querySelector<HTMLElement>("[data-copy-status]");
+    let resetTimer: number | undefined;
+
+    button.addEventListener("click", async () => {
+      const email = button.dataset.copyEmail ?? "";
+      const copied = await copyText(email);
+
+      if (label) label.textContent = copied ? "¡Copiado!" : "Copia manualmente";
+      if (copyIcon) copyIcon.classList.toggle("hidden", copied);
+      if (copiedIcon) copiedIcon.classList.toggle("hidden", !copied);
+      if (status) {
+        status.textContent = copied
+          ? `Email copiado al portapapeles: ${email}`
+          : `No se pudo copiar. Nuestro email: ${email}`;
+      }
+
+      window.clearTimeout(resetTimer);
+      resetTimer = window.setTimeout(() => {
+        if (label) label.textContent = "Copiar email";
+        if (copyIcon) copyIcon.classList.remove("hidden");
+        if (copiedIcon) copiedIcon.classList.add("hidden");
+        if (status) status.textContent = "";
+      }, RESET_DELAY_MS);
+    });
+  });
+</script>

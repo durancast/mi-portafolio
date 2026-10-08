@@ -1,0 +1,40 @@
+---
+import { Globe, MapPin, Laptop } from "lucide-astro";
+import Card from "./Card.astro";
+import { profile } from "../data/portfolio";
+
+interface Props {
+  class?: string;
+}
+
+const { class: className = "" } = Astro.props;
+---
+
+<Card as="section" class:list={[className]} labelledby="location-title">
+  <header class="flex items-center gap-2">
+    <Globe class="h-4 w-4 text-zinc-500" aria-hidden="true" />
+    <h2
+      id="location-title"
+      class="font-mono text-xs uppercase tracking-widest text-zinc-400">
+      Ubicación
+    </h2>
+  </header>
+
+  <div class="mt-4 flex flex-1 flex-col justify-center gap-5">
+    <!-- Ciudad como valor principal, sin label que duplique el título -->
+    <p class="flex items-center gap-2.5 text-base text-zinc-200 md:text-lg">
+      <MapPin class="h-4 w-4 shrink-0 text-zinc-500" aria-hidden="true" />
+      {profile.location.city}
+    </p>
+
+    <dl>
+      <dt class="font-mono text-[11px] uppercase tracking-wider text-zinc-400">
+        Modalidad
+      </dt>
+      <dd class="mt-1 flex items-center gap-2.5 text-sm text-zinc-300">
+        <Laptop class="h-4 w-4 shrink-0 text-zinc-500" aria-hidden="true" />
+        {profile.location.modality}
+      </dd>
+    </dl>
+  </div>
+</Card>

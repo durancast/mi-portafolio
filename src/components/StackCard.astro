@@ -1,0 +1,39 @@
+---
+import { Layers } from "lucide-astro";
+import Card from "./Card.astro";
+import { stack } from "../data/portfolio";
+
+interface Props {
+  class?: string;
+}
+
+const { class: className = "" } = Astro.props;
+---
+
+<Card as="section" class:list={[className]} labelledby="stack-title">
+  <header class="flex items-center gap-2">
+    <Layers class="h-4 w-4 text-zinc-500" aria-hidden="true" />
+    <h2
+      id="stack-title"
+      class="font-mono text-xs uppercase tracking-widest text-zinc-400">
+      Capacidades técnicas
+    </h2>
+  </header>
+
+  <dl class="mt-4 flex-1 space-y-4">
+    {
+      stack.map((group) => (
+        <div>
+          <dt class="font-mono text-[11px] uppercase tracking-wider text-zinc-400">
+            {group.category}
+          </dt>
+          <dd class="mt-1.5 flex flex-wrap gap-1.5">
+            {group.items.map((item) => (
+              <span class="chip">{item}</span>
+            ))}
+          </dd>
+        </div>
+      ))
+    }
+  </dl>
+</Card>

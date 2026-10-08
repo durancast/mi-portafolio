@@ -1,0 +1,31 @@
+---
+import IdentityCard from "./IdentityCard.astro";
+import ProjectCard from "./ProjectCard.astro";
+import StackCard from "./StackCard.astro";
+import LocationCard from "./LocationCard.astro";
+import { starProject, secondaryProject } from "../data/portfolio";
+
+// Si el proyecto secundario no tiene título, se oculta la card y la estrella ocupa todo el ancho
+const hasSecondary = secondaryProject.title.trim() !== "";
+---
+
+<section
+  aria-label="Perfil profesional"
+  data-bento
+  class="grid grid-cols-1 gap-4 md:grid-cols-3 md:grid-flow-row-dense lg:grid-cols-4"
+>
+  <!-- 1. Identidad + contacto: 2×2 en md, 3×2 en lg -->
+  <IdentityCard />
+
+  <!-- 2. Ubicación: esquina superior derecha -->
+  <LocationCard />
+
+  <!-- 3. Stack técnico: esquina superior derecha -->
+  <StackCard />
+
+  <!-- 4. Proyecto principal: 2×2 (o todo el ancho si no hay secundario) -->
+  <ProjectCard project={starProject} variant="star" fullWidth={!hasSecondary} />
+
+  <!-- 5. Proyecto secundario: 1×2 en md, 2×2 en lg (oculto hasta que tenga título) -->
+  {hasSecondary && <ProjectCard project={secondaryProject} variant="secondary" />}
+</section>

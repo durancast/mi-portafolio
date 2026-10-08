@@ -1,0 +1,82 @@
+{
+  "profile": {
+    "name": "Alejandro Duran",
+    "role": "Full-Stack Software Engineer",
+    "status": "Disponible para incorporación inmediata",
+    "email": "info@durancast.dev",
+    "pitch": "Construyo producto con criterio técnico: arquitectura limpia, interfaces reactivas y APIs tipadas de extremo a extremo. Priorizo lo simple sobre lo ingenioso.",
+    "location": {
+      "city": "Segovia, España",
+      "modality": "Remoto o híbrido"
+    },
+    "links": {
+      "github": "https://github.com/durancast",
+      "linkedin": "https://www.linkedin.com/in/durancast"
+    },
+    "cvUrl": "/cv.pdf"
+  },
+  "projects": {
+    "star": {
+      "id": "proyecto-estrella",
+      "label": "Proyecto en migración",
+      "title": "Cookflow: SaaS para gestion de restaurantes",
+      "summary": "Reservas de turnos con control de disponibilidad en tiempo real: bloqueos optimistas sobre PostgreSQL para evitar overbooking bajo tráfico concurrente, y webhooks de Stripe idempotentes que reconcilian el estado de cada pago.",
+      "badges": [
+        "Astro -> Angular",
+        "Laravel -> SpringBoot",
+        "PostgreSQL"
+      ],
+      "demoUrl": "No disponible",
+      "codeUrl": "https://github.com/durancast/CookFlow",
+      "image": null
+    },
+    "secondary": {
+      "id": "proyecto-secundario",
+      "label": "Proyecto en desarrollo",
+      "title": "",
+      "summary": "",
+      "badges": [
+        ""
+      ],
+      "demoUrl": "No disponible",
+      "codeUrl": "",
+      "image": null
+    }
+  },
+  "stack": [
+    {
+      "category": "Frontend",
+      "items": [
+        "TypeScript",
+        "Angular",
+        "Astro",
+        "Tailwind CSS"
+      ]
+    },
+    {
+      "category": "Backend",
+      "items": [
+        "Java",
+        "SpringBoot",
+        "PHP"
+      ]
+    },
+    {
+      "category": "Bases de datos",
+      "items": [
+        "PostgreSQL",
+        "PLSQL",
+        "Turso"
+      ]
+    },
+    {
+      "category": "Herramientas",
+      "items": [
+        "Git",
+        "Docker",
+        "pnpm",
+        "OpenCode"
+      ]
+    }
+  ]
+}

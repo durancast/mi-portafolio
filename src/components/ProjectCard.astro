@@ -1,0 +1,150 @@
+---
+import { ExternalLink, Github } from "lucide-astro";
+import Card from "./Card.astro";
+import type { Project } from "../data/portfolio";
+
+interface Props {
+  project: Project;
+  variant?: "star" | "secondary";
+  /** Sin proyecto secundario, la estrella ocupa todo el ancho (evita huecos en el grid). */
+  fullWidth?: boolean;
+  class?: string;
+}
+
+const {
+  project,
+  variant = "secondary",
+  fullWidth = false,
+  class: className = "",
+} = Astro.props;
+const isStar = variant === "star";
+
+const spanClasses = fullWidth
+  ? "md:col-span-3 md:row-span-2 lg:col-span-4"
+  : isStar
+    ? "md:col-span-2 md:row-span-2"
+    : "md:col-span-1 md:row-span-2 lg:col-span-2 lg:row-span-2";
+
+// Jerarquía del badge: la estrella usa el carmesí de marca, la secundaria, chip neutro
+const eyebrowClasses = isStar
+  ? "border-accent-500/40 bg-accent-500/15 text-accent-400"
+  : "border-zinc-800 bg-zinc-950/70 text-zinc-400";
+const eyebrowDotClasses = isStar ? "bg-accent-400" : "bg-zinc-500";
+
+// Solo enlazamos/renderizamos los botones si las URLs son reales
+const hasDemo = /^https?:\/\//.test(project.demoUrl);
+const hasCode = /^https?:\/\//.test(project.codeUrl);
+
+// Los badges vacíos se omiten (evita píldoras sin texto)
+const visibleBadges = project.badges.filter((badge) => badge.trim() !== "");
+
+// Captura real desde el JSON; sin ella la card no muestra visual
+const imageProps = project.image?.src
+  ? ({
+      src: project.image.src,
+      alt: project.image.alt,
+      loading: "lazy",
+      decoding: "async",
+      class:
+        "h-full min-h-32 w-full rounded-xl border border-zinc-800/80 object-cover transition-all duration-200 group-hover:border-zinc-700 group-hover:opacity-90",
+    } as const)
+  : null;
+---
+
+<Card
+  as="article"
+  class:list={[spanClasses, className]}
+  labelledby={`${project.id}-title`}
+>
+  <header>
+    <p
+      class:list={[
+        "inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 font-mono text-[11px]",
+        eyebrowClasses,
+      ]}
+    >
+      <span class:list={["h-1 w-1 rounded-full", eyebrowDotClasses]} aria-hidden="true"></span>
+      {project.label}
+    </p>
+    <h2
+      id={`${project.id}-title`}
+      class:list={[
+        "mt-3 font-semibold tracking-tight text-bone-100",
+        isStar ? "text-2xl md:text-3xl" : "text-lg",
+      ]}
+    >
+      {project.title}
+    </h2>
+    <p
+      class:list={[
+        "mt-2 leading-relaxed text-zinc-400",
+        isStar ? "text-sm md:text-base" : "text-sm",
+      ]}
+    >
+      {project.summary}
+    </p>
+  </header>
+
+  {
+    visibleBadges.length > 0 && (
+      <ul class="mt-4 flex flex-wrap gap-1.5" aria-label="Tecnologías utilizadas">
+        {visibleBadges.map((badge) => (
+          <li class="chip">{badge}</li>
+        ))}
+      </ul>
+    )
+  }
+
+  <!-- Visual del proyecto: solo imagen real desde el JSON (si image es null, no se muestra nada) -->
+  {
+    imageProps && (
+      <div class="mt-5 flex-1">
+        {hasDemo ? (
+          <a
+            href={project.demoUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="group block h-full"
+            aria-label={`Ver demo de ${project.title} (abre en una pestaña nueva)`}
+          >
+            <img {...imageProps} />
+          </a>
+        ) : (
+          <img {...imageProps} />
+        )}
+      </div>
+    )
+  }
+
+  {
+    (hasDemo || hasCode) && (
+      <footer class="mt-5 flex flex-wrap gap-2">
+        {hasDemo && (
+          <a
+            href={project.demoUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn btn-primary"
+            aria-label={`Ver demo en vivo de ${project.title} (abre en una pestaña nueva)`}
+          >
+            Live Demo
+            <ExternalLink class="h-3.5 w-3.5" aria-hidden="true" />
+          </a>
+        )}
+        {hasCode && (
+          <a
+            href={project.codeUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn btn-ghost"
+            aria-label={`Ver código de ${project.title} en GitHub (abre en una pestaña nueva)`}
+          >
+            <Github class="h-3.5 w-3.5" aria-hidden="true" />
+            Código
+            <span aria-hidden="true">↗</span>
+          </a>
+        )}
+      </footer>
+    )
+  }
+</Card>
