@@ -30,13 +30,13 @@ Portafolio personal estilo *bento grid* (carta de presentación B2B) construido 
 
 ### Imágenes estáticas
 
-La paleta **"Sangre y Hueso"** (estilo *The Witcher 3*) está definida en `@theme` dentro de [`src/styles/global.css`](src/styles/global.css): neutros `zinc-*` reescalados a marrones cálidos, **carmesí** (`accent-*`) como acento primario de marca (links, foco, glow, selección, badge de la estrella), **ámbar** (`gold-*`) como lumbre secundaria (medallón, auras, botón Live Demo) y **hueso** (`bone-*`) para el texto principal en vez de blanco puro. La textura "gastada" viene de `bg-noise` + `bg-vignette` (capa de fondo) y `card-surface` (degradado tipo cuero envejecido en las tarjetas).
+La paleta **"Navy y Teal"** está definida en `@theme` dentro de [`src/styles/global.css`](src/styles/global.css) y se extrajo de `public/logo.png`: neutros `zinc-*` en tono navy azulado, **teal** (`accent-*`) como acento de marca (links, foco, glow, selección, badge de la estrella) y blanco frío `zinc-100` para el texto principal.
 
-`public/avatar.png` (medallón de la card de identidad) y `public/og.png` (foto de redes, 1200×630) se generan con [`scripts/generate-images.py`](scripts/generate-images.py) (requiere `pillow`):
+- **`public/logo.png`** — logotipo original (lienzo 1376×768, RGBA). Única fuente de marca; no se muestra directamente.
+- **`public/logo-emblem.png`** — recorte del emblema (494×493) sin márgenes transparentes. Se usa en la card de identidad y como favicon.
+- **`public/og.png`** — imagen para redes sociales (`og:image`, 1200×630): navy + emblema + nombre/rol.
 
-```bash
-python3 scripts/generate-images.py
-```
+Estos assets son estáticos y se regeneran puntualmente con ImageMagick (sin dependencias Python).
 
 ## 📌 Pendiente (TODO)
 
@@ -44,7 +44,6 @@ python3 scripts/generate-images.py
 - [ ] **Proyecto secundario**: rellenar `title`, `summary`, `badges` y URLs reales (hoy vacío → la card está oculta y la estrella ocupa todo el ancho).
 - [ ] **CV**: reemplazar `public/cv.pdf` (placeholder generado) por el CV real.
 - [ ] **Imágenes de proyecto** *(obligatorio para que se vea algo)*: crear `public/projects/`, añadir capturas (recomendado 1600×1000 `.webp` ≤200 KB) y rellenar `image.src` + `image.alt` en cada proyecto del JSON (hoy `null`: las cards no muestran visual).
-- [ ] **Foto**: reemplazar `public/avatar.png` (placeholder "AD") por una foto real o un render 3D tipo emoji (PNG cuadrado, el CSS lo recorta en círculo). Al hacerlo, quitar `alt=""` y `aria-hidden="true"` de la `<img>` de `IdentityCard.astro` y poner un alt descriptivo (p. ej. `alt="Foto de Alejandro Duran"`).
 
 ## 📁 Estructura
 
@@ -53,12 +52,12 @@ src/
 ├── components/
 │   ├── BentoGrid.astro        ← orquestación del grid responsive (5 cards, md dense / lg)
 │   ├── Card.astro             ← base de tarjeta: borde, hover, glow que sigue al puntero
-│   ├── IdentityCard.astro     ← editorial (nombre + medallón) + action bar de contacto (email/CV/redes)
+│   ├── IdentityCard.astro     ← editorial (nombre + emblema de marca) + action bar de contacto
 │   ├── CopyEmailButton.astro  ← copiar al portapapeles (clipboard + fallback, aria-live)
 │   ├── ProjectCard.astro      ← variantes star / secondary (visual solo desde image)
 │   ├── StackCard.astro        ← chips mono por categoría
 │   ├── LocationCard.astro     ← ciudad + modalidad (sin zona horaria)
-│   └── StatusDot.astro        ← punto verde pulsante reutilizable
+│   └── StatusDot.astro        ← punto teal pulsante reutilizable
 ├── data/
 │   ├── portfolio.json         ← FUENTE DE VERDAD del contenido
 │   └── portfolio.ts           ← interfaces + validación `satisfies`

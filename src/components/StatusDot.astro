@@ -1,6 +1,6 @@
 ---
 /**
- * Punto de estado pulsante (verde). Evita duplicar el patrón de spans
+ * Punto de estado pulsante (teal). Evita duplicar el patrón de spans
  * reutilizables en las tarjetas del bento.
  */
 interface Props {
@@ -15,12 +15,12 @@ const dotClass = size === "sm" ? "h-1.5 w-1.5" : "h-2 w-2";
 <span class:list={["relative flex", dotClass, className]} aria-hidden="true">
   <span
     class:list={[
-      "absolute inline-flex h-full w-full animate-status-pulse rounded-full bg-green-500",
+      "absolute inline-flex h-full w-full animate-status-pulse rounded-full bg-accent-500",
     ]}
   >
   </span>
   <span
-    class:list={["relative inline-flex rounded-full bg-green-500", dotClass]}
+    class:list={["relative inline-flex rounded-full bg-accent-500", dotClass]}
   >
   </span>
 </span>

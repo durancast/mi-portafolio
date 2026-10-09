@@ -42,8 +42,7 @@ const personSchema = {
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" href="/logo-emblem.png" />
     <meta name="generator" content={Astro.generator} />
 
     <!-- SEO -->
@@ -51,7 +50,7 @@ const personSchema = {
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalURL} />
     <meta name="robots" content="index, follow" />
-    <meta name="theme-color" content="#0a0908" />
+    <meta name="theme-color" content="#0f1b2f" />
     <meta name="color-scheme" content="dark" />
 
     <!-- Open Graph / Twitter -->
@@ -80,12 +79,12 @@ const personSchema = {
     <!-- Enlace de salto para navegación por teclado (visible solo con foco) -->
     <a
       href="#main-content"
-      class="sr-only rounded-lg bg-accent-500 px-4 py-2.5 font-medium text-white focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-400 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950"
+      class="sr-only rounded-lg bg-accent-500 px-4 py-2.5 font-medium text-zinc-950 focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-zinc-100 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950"
     >
       Saltar al contenido
     </a>
 
-    <!-- Fondo técnico: rejilla sutil + grano + resplandor dorado -->
+    <!-- Fondo técnico: rejilla sutil + grano + resplandor teal -->
     <div aria-hidden="true" class="pointer-events-none fixed inset-0 -z-10">
       <div class="absolute inset-0 bg-tech-grid"></div>
       <div class="absolute inset-0 bg-noise opacity-[0.05]"></div>
@@ -96,7 +95,7 @@ const personSchema = {
     </div>
     <slot />
 
-    <!-- Glow ámbar que sigue al puntero en las tarjetas (solo puntero fino) -->
+    <!-- Glow teal que sigue al puntero en las tarjetas (solo puntero fino) -->
     <script>
       const hasFinePointer = window.matchMedia(
         "(hover: hover) and (pointer: fine)"

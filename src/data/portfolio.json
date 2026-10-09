@@ -1,7 +1,7 @@
 {
   "profile": {
     "name": "Alejandro Duran",
-    "role": "Full-Stack Software Engineer",
+    "role": "Full-Stack Web Developer",
     "status": "Disponible para incorporación inmediata",
     "email": "alejandro@durancast.dev",
     "pitch": "Construyo producto con criterio técnico: arquitectura limpia, interfaces reactivas y APIs tipadas de extremo a extremo. Priorizo lo simple sobre lo ingenioso.",
@@ -19,12 +19,13 @@
     "star": {
       "id": "proyecto-estrella",
       "label": "Proyecto en migración",
-      "title": "Cookflow: SaaS para gestion de restaurantes",
-      "summary": "Reservas de turnos con control de disponibilidad en tiempo real: bloqueos optimistas sobre PostgreSQL para evitar overbooking bajo tráfico concurrente, y webhooks de Stripe idempotentes que reconcilian el estado de cada pago.",
+      "title": "CookFlow · TPV y gestión para restaurantes",
+      "summary": "SaaS (TFG de DAW) que centraliza pedidos, mesas y catálogo: TPV en tiempo real con islas Astro + React 19, QR dinámico por mesa y vista de cocina, sobre API Laravel 12 con Sanctum que recalcula el total desde la BD e ignora el del cliente (flujo Pendiente → Preparación → Servido → Pagado). Actualmente en proceso de migración: el frontend pasa de Astro a Angular y el backend de Laravel a Spring Boot.",
       "badges": [
-        "Astro -> Angular",
-        "Laravel -> SpringBoot",
-        "PostgreSQL"
+        "Astro → Angular",
+        "Laravel → Spring Boot",
+        "MySQL",
+        "Sanctum"
       ],
       "demoUrl": "No disponible",
       "codeUrl": "https://github.com/durancast/CookFlow",
@@ -47,6 +48,7 @@
     {
       "category": "Frontend",
       "items": [
+        "JavaScript",
         "TypeScript",
         "Angular",
         "Astro",
@@ -64,8 +66,8 @@
     {
       "category": "Bases de datos",
       "items": [
-        "PostgreSQL",
-        "PLSQL",
+        "MySQL",
+        "PL/SQL",
         "Turso"
       ]
     },
